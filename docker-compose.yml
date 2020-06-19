@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  client:
+    build: ./client
+    networks:
+      - app
+    environment:
+      - docker=true
+  gateway:
+    build: ./gateway
+    environment:
+      - DEBUG=feathers-distributed*
+    networks:
+      app:
+        aliases:
+        - api
+    ports:
+      - "3030:3030"
+  service:
+    build: ./service
+    networks:
+      - app
+    environment:
+      - DEBUG=feathers-distributed*
+    ports:
+      - "3040:3040"
+networks:
+  app:
